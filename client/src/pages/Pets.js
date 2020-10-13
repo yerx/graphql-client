@@ -1,21 +1,43 @@
-import React, {useState} from 'react'
-import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import PetsList from '../components/PetsList'
-import NewPetModal from '../components/NewPetModal'
-import Loader from '../components/Loader'
+import React, { useState } from "react";
+import gql from "graphql-tag";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import PetsList from "../components/PetsList";
+import NewPetModal from "../components/NewPetModal";
+import Loader from "../components/Loader";
+//
 
-
-export default function Pets () {
-  const [modal, setModal] = useState(false)
-
-
-  const onSubmit = input => {
-    setModal(false)
+// add a query
+const ALL_PETS = gql`
+  query AllPets {
+    # retrieve object by calling data.pets
+    pets {
+      id
+      name
+      type
+      img
+    }
   }
-  
+`;
+export default function Pets() {
+  const [modal, setModal] = useState(false);
+  // add a React hook to return data, boolean if it is loading, and error message
+  const { data, loading, error } = useQuery(ALL_PETS);
+
+  const onSubmit = (input) => {
+    setModal(false);
+  };
+
+  // return the loader component if the query is loading
+  if (loading) {
+    return <Loader />;
+  }
+  // return an error if there is an error with the query
+  if (error) {
+    return <p>Error</p>;
+  }
+
   if (modal) {
-    return <NewPetModal onSubmit={onSubmit} onCancel={() => setModal(false)} />
+    return <NewPetModal onSubmit={onSubmit} onCancel={() => setModal(false)} />;
   }
 
   return (
@@ -32,8 +54,9 @@ export default function Pets () {
         </div>
       </section>
       <section>
-        <PetsList />
+        {/* when the query data comes in, pass it to PetsList */}
+        <PetsList pets={data.pets} />
       </section>
     </div>
-  )
+  );
 }

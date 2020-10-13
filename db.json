@@ -1,1 +1,14 @@
-{}
+{
+  "user": {
+    "id": "1",
+    "username": "frontendmaster"
+  },
+  "pet": [
+    {
+      "id": "234",
+      "type": "DOG",
+      "name": "Bolt",
+      "createdAt": "234"
+    }
+  ]
+}

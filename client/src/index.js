@@ -9,7 +9,10 @@ import "./index.css";
 
 const Root = () => (
   <BrowserRouter>
-    <App />
+    {/* Wrap the app in the Apollo Client using ApolloProvider and pass in the client */}
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </BrowserRouter>
 );
 
