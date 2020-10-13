@@ -36,7 +36,16 @@ export default function Pets() {
   // add a React hook to return data, boolean if it is loading, and error message
   const { data, loading, error } = useQuery(ALL_PETS);
   // add a hook to perform the mutation
-  const [createPet, newPet] = useMutation(NEW_PET);
+  const [createPet, newPet] = useMutation(NEW_PET, {
+    // use update function to update the page when a new pet is created
+    update(cache, { data: { addPet } }) {
+      const data = cache.readQuery({ query: ALL_PETS });
+      cache.writeQuery({
+        query: ALL_PETS,
+        data: { pets: [addPet, ...data.pets] },
+      });
+    },
+  });
 
   const onSubmit = (input) => {
     setModal(false);
