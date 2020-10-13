@@ -18,21 +18,39 @@ const ALL_PETS = gql`
     }
   }
 `;
+
+// add mutation
+const NEW_PET = gql`
+  mutation CreateAPet($newPet: NewPetInput!) {
+    addPet(input: $newPet) {
+      id
+      name
+      type
+      img
+    }
+  }
+`;
+
 export default function Pets() {
   const [modal, setModal] = useState(false);
   // add a React hook to return data, boolean if it is loading, and error message
   const { data, loading, error } = useQuery(ALL_PETS);
+  // add a hook to perform the mutation
+  const [createPet, newPet] = useMutation(NEW_PET);
 
   const onSubmit = (input) => {
     setModal(false);
+    createPet({
+      variables: { newPet: input },
+    });
   };
 
   // return the loader component if the query is loading
-  if (loading) {
+  if (loading || newPet.load) {
     return <Loader />;
   }
   // return an error if there is an error with the query
-  if (error) {
+  if (error || newPet.error) {
     return <p>Error</p>;
   }
 

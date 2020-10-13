@@ -3,12 +3,10 @@
     "id": "1",
     "username": "frontendmaster"
   },
-  "pet": [
-    {
-      "id": "234",
-      "type": "DOG",
-      "name": "Bolt",
-      "createdAt": "234"
-    }
-  ]
+  "pet": [{
+    "id": "234",
+    "type": "CAT",
+    "name": "Bolt",
+    "createdAt": "234"
+  }]
 }
