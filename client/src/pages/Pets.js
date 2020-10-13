@@ -51,11 +51,23 @@ export default function Pets() {
     setModal(false);
     createPet({
       variables: { newPet: input },
+      // add an optimistic response UI instead of loader
+      optimisticResponse: {
+        __typename: "Mutation",
+        addPet: {
+          __typename: "Pet",
+          id: Math.floor(Math.random() * 1000) + "",
+          name: input.name,
+          type: input.type,
+          // add a placeholder image
+          img: "https://via.placeholder.com/300",
+        },
+      },
     });
   };
 
   // return the loader component if the query is loading
-  if (loading || newPet.load) {
+  if (loading) {
     return <Loader />;
   }
   // return an error if there is an error with the query
